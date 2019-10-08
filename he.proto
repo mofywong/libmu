@@ -1,0 +1,1033 @@
+syntax = "proto3";
+
+option optimize_for = LITE_RUNTIME;
+option cc_enable_arenas = true;
+
+package He;
+
+enum AttributeType {
+    ATTR_TYPE_UNKNOWN                                               = 0;
+
+    ATTR_TYPE_MANUFACTURER                                          = 1;
+    ATTR_TYPE_SOFTWARE_VERSION                                      = 2;
+    ATTR_TYPE_HARDWARE_VERSION                                      = 3;
+    ATTR_TYPE_SOFTWARE_BUILD                                        = 4;
+    ATTR_TYPE_HARDWARE_DATE                                         = 5;
+    ATTR_TYPE_UP_TIME                                               = 6;
+    ATTR_TYPE_ON_OFF                                                = 7;
+    ATTR_TYPE_LEVEL                                                 = 8;
+    ATTR_TYPE_CURRENT                                               = 9;
+    ATTR_TYPE_VOLTAGE                                               = 10;
+    ATTR_TYPE_LUMEN                                                 = 11;
+    ATTR_TYPE_BRIGHTNESS                                            = 12;
+    ATTR_TYPE_IPV4                                                  = 13;
+    ATTR_TYPE_IPV6                                                  = 14;
+    ATTR_TYPE_EUI                                                   = 15;
+    ATTR_TYPE_HUMIDITY                                              = 16;
+    ATTR_TYPE_TEMPERATURE                                           = 17;
+    ATTR_TYPE_CO2                                                   = 18;
+    ATTR_TYPE_CO                                                    = 19;
+    ATTR_TYPE_NO2                                                   = 20;
+    ATTR_TYPE_SO2                                                   = 21;
+    ATTR_TYPE_TVOC                                                  = 22;
+    ATTR_TYPE_PM2_5                                                 = 23;
+    ATTR_TYPE_PM10                                                  = 24;
+    ATTR_TYPE_AIR_PRESSURE                                          = 25;
+    ATTR_TYPE_WIND_SPEED                                            = 26;
+    ATTR_TYPE_WIND_DIRECTION                                        = 27;
+    ATTR_TYPE_PRECIPITATION                                         = 28;
+    ATTR_TYPE_SUN_RADIATION                                         = 29;
+    ATTR_TYPE_ULTRAVIOLET                                           = 30;
+    ATTR_TYPE_NOISE                                                 = 31;
+    ATTR_TYPE_OCCUPANCY                                             = 32;
+    ATTR_TYPE_SCREEN_WIDTH                                          = 33;
+    ATTR_TYPE_SCREEN_HEIGHT                                         = 34;
+    ATTR_TYPE_VOLUME                                                = 35;
+    ATTR_TYPE_POWER                                                 = 36;
+    ATTR_TYPE_ACTIVE_POWER                                          = 37;
+    ATTR_TYPE_REACTIVE_POWER                                        = 38;
+    ATTR_TYPE_POWER_FACTOR                                          = 39;
+    ATTR_TYPE_ACTIVE_TOTAL_ENERGY                                   = 40;
+    ATTR_TYPE_ACTIVE_FORWARD_ENERGY                                 = 41;
+    ATTR_TYPE_ACTIVE_BACKWARD_ENERGY                                = 42;
+    ATTR_TYPE_REACTIVE_TOTAL_ENERGY                                 = 43;
+    ATTR_TYPE_REACTIVE_FORWARD_ENERGY                               = 44;
+    ATTR_TYPE_REACTIVE_BACKWARD_ENERGY                              = 45;
+    ATTR_TYPE_APPARENT_POWER                                        = 46;
+    ATTR_TYPE_APPARENT_ENERGY                                       = 47;
+    ATTR_TYPE_TOTAL_RX_BYTES                                        = 48;
+    ATTR_TYPE_TOTAL_TX_BYTES                                        = 49;
+    ATTR_TYPE_CPU_USAGE                                             = 50;
+    ATTR_TYPE_RAM_USAGE                                             = 51;
+    ATTR_TYPE_INDEX                                                 = 52;
+    ATTR_TYPE_UART_PORT                                             = 53;
+    ATTR_TYPE_DO_PORT                                               = 54;
+    ATTR_TYPE_DI_PORT                                               = 55;
+    ATTR_TYPE_AO_PORT                                               = 56;
+    ATTR_TYPE_AI_PORT                                               = 57;
+    ATTR_TYPE_PWM_PORT                                              = 58;
+    ATTR_TYPE_MODBUS_ADDRESS                                        = 59;
+    ATTR_TYPE_UART_BAUDRATE                                         = 60;
+    ATTR_TYPE_UART_PARITY_BIT                                       = 61;
+    ATTR_TYPE_UART_DATA_BIT                                         = 62;
+    ATTR_TYPE_UART_STOP_BIT                                         = 63;
+    ATTR_TYPE_LUX                                                   = 64;
+    ATTR_TYPE_FLOODING                                              = 65;
+    ATTR_TYPE_FREQUENCY                                             = 66;
+    ATTR_TYPE_TIME_POLICY                                           = 67;
+}
+
+message Attribute {
+    AttributeType type                                              = 1;
+    oneof value {
+        string text                                                 = 2;
+        bool boolean                                                = 3;
+        sint32 integer                                              = 4;
+        uint64 digit                                                = 5;
+    }
+}
+
+enum MethodType {
+    METH_TYPE_UNKNOWN                                               = 0;
+
+    METH_TYPE_GET_GATEWAY                                           = 1;
+    METH_TYPE_GET_THINGS                                            = 2;
+    METH_TYPE_SET_TIME                                              = 3;
+    METH_TYPE_SET_ON_OFF                                            = 4;
+    METH_TYPE_SET_ON_OFF_DELAY                                      = 5;
+    METH_TYPE_SET_ON_OFF_DAILY                                      = 6;
+    METH_TYPE_SET_ON_OFF_WEEKLY                                     = 7;
+    METH_TYPE_LIST_TIME_TASK                                        = 8;
+    METH_TYPE_CANCEL_TIME_TASK                                      = 9;
+    METH_TYPE_CLEAR_TIME_TASK                                       = 10;
+    METH_TYPE_CLEAR_ENERGY_STATISTICS                               = 11;
+    METH_TYPE_SET_LEVEL                                             = 12;
+    METH_TYPE_SET_BRIGHTNESS                                        = 13;
+    METH_TYPE_ADD_IPC                                               = 14;
+    METH_TYPE_REMOVE_IPC                                            = 15;
+    METH_TYPE_SET_ACCOUNT                                           = 16;
+    METH_TYPE_MOVE_PTZ                                              = 17;
+    METH_TYPE_SAVE_PTZ                                              = 18;
+    METH_TYPE_RESTORE_PTZ                                           = 19;
+    METH_TYPE_LIST_PTZ                                              = 20;
+    METH_TYPE_REMOVE_PTZ                                            = 21;
+    METH_TYPE_GET_CPU_USAGE                                         = 22;
+    METH_TYPE_GET_RAM_USAGE                                         = 23;
+    METH_TYPE_GET_TOTAL_RX_BYTES                                    = 24;
+    METH_TYPE_GET_TOTAL_TX_BYTES                                    = 25;
+    METH_TYPE_REBOOT                                                = 26;
+    METH_TYPE_SCREENSHOT                                            = 27;
+    METH_TYPE_LOAD_URL                                              = 28;
+    METH_TYPE_PLAY_FILE                                             = 29;
+    METH_TYPE_UPDATE                                                = 30;
+    METH_TYPE_SET_ATTRIBUTE_THRESHOLD                               = 31;
+    METH_TYPE_SET_ATTRIBUTE_INTERVAL                                = 32;
+    METH_TYPE_GET_CONFIG                                            = 33;
+    METH_TYPE_SET_CONFIG                                            = 34;
+    METH_TYPE_ADD_DIO_LOCK                                          = 35;
+    METH_TYPE_REMOVE_DIO_LOCK                                       = 36;
+    METH_TYPE_PAUSE                                                 = 37;
+    METH_TYPE_RESUME                                                = 38;
+    METH_TYPE_GET_GATEWAY_UUID                                      = 39;
+    METH_TYPE_SET_VOLUME                                            = 40;
+    METH_TYPE_SET_FOCUS                                             = 41;
+    METH_TYPE_SET_APERTURE                                          = 42;
+    METH_TYPE_PUSH_VIDEO_PREVIEW                                    = 43;
+    METH_TYPE_PULL_VIDEO_PREVIEW                                    = 44;
+    METH_TYPE_STOP_VIDEO_PREVIEW                                    = 45;
+    METH_TYPE_GET_VIDEO_STREAM                                      = 46;
+    METH_TYPE_STILL_CAPTURE                                         = 47;
+    METH_TYPE_ADD_STREET_LAMP                                       = 48;
+    METH_TYPE_REMOVE_STREET_LAMP                                    = 49;
+    METH_TYPE_ADD_MODBUS_RTU                                        = 50;
+    METH_TYPE_REMOVE_MODBUS_RTU                                     = 51;
+    METH_TYPE_SET_UART                                              = 52;
+    METH_TYPE_LOAD_PROGRAM                                          = 53;
+    METH_TYPE_STOP_PTZ                                              = 54;
+    METH_TYPE_CLEAR_PTZ                                             = 55;
+    METH_TYPE_ADD_CRUISE_TRACK                                      = 56;
+    METH_TYPE_REMOVE_CRUISE_TRACK                                   = 57;
+    METH_TYPE_ACTIVE_CRUISE_TRACK                                   = 58;
+    METH_TYPE_INACTIVE_CRUISE_TRACK                                 = 59;
+    METH_TYPE_LIST_CRUISE_TRACK                                     = 60;
+    METH_TYPE_SET_ZOOM                                              = 61;
+    METH_TYPE_IDLE                                                  = 62;
+    METH_TYPE_SET_BRIGHTNESS_WITH_TIME                              = 63;
+    METH_TYPE_SET_ON_OFF_WITH_TIME                                  = 64;
+    METH_TYPE_LOAD_PROGRAM_WITH_TIME                                = 65;
+    METH_TYPE_LOAD_TEXT                                             = 66;
+    METH_TYPE_SET_ONOFF_WITH_RESUME                                 = 67;
+    METH_TYPE_SET_BRIGHTNESS_WITH_RESUME                            = 68;
+    METH_TYPE_ENABLE_TIME_POLICY                                    = 69;
+    METH_TYPE_SET_ANGLE_AXIS_ORIGIN                                 = 70;
+    METH_TYPE_SET_OVER_VOLTAGE_THRESHOLD                            = 71;
+    METH_TYPE_SET_LOW_VOLTAGE_THRESHOLD                             = 72;
+    METH_TYPE_SET_OVER_CURRENT_THRESHOLD                            = 73;
+    METH_TYPE_SET_LEAKAGE_CURRENT_THRESHOLD                         = 74;
+    METH_TYPE_SET_ATTRIBUTE_CHANGE_THRESHOLD                        = 75;
+    METH_TYPE_SET_ATTRIBUTE_CHANGE_INTERVAL                         = 76;
+    METH_TYPE_PRELOAD_PROGRAM                                       = 77;
+    METH_TYPE_SWITCH_PROGRAM                                        = 78;
+    METH_TYPE_LOAD_PROGRAM_WITH_DATE                                = 79;
+    METH_TYPE_DELETE_LOAD_PROGRAM_WITH_DATE                         = 80;   
+}
+
+message CruisePosition {
+    uint32 Position                                                 = 1;
+    uint32 Speed                                                    = 2;
+    uint32 Time                                                     = 3;
+}
+
+enum PtzDirection {
+    DIRECTION_UNKNOWN                                               = 0;
+
+    DIRECTION_UP                                                    = 1;
+    DIRECTION_DOWN                                                  = 2;
+    DIRECTION_LEFT                                                  = 3;
+    DIRECTION_RIGHT                                                 = 4;
+    DIRECTION_LEFT_UP                                               = 5;
+    DIRECTION_LEFT_DOWN                                             = 6;
+    DIRECTION_RIGHT_UP                                              = 7;
+    DIRECTION_RIGHT_DOWN                                            = 8;
+}
+
+message BrightnessTiming {
+    uint32 brightness                                               = 1;
+    uint32 time                                                     = 2;
+}
+
+message OnOffTiming {
+    bool onoff                                                      = 1;
+    uint32 time                                                     = 2;
+}
+
+message ProgramTiming {
+    string url                                                      = 1;
+    string md5_sum                                                  = 2;
+    uint32 volume                                                   = 3;
+    uint32 time                                                     = 4;
+}
+
+message MethodInLoadProgramWithTime {
+    repeated ProgramTiming times                                    = 1;
+    uint32 end                                                      = 2;
+}
+
+message MethodOutLoadProgramWithTime {
+    uint32 task                                                     = 1;
+}
+
+message MethodInSetOnOffWithTime {
+    repeated OnOffTiming times                                      = 1;
+}
+
+message MethodOutSetOnOffWithTime {
+    uint32 task                                                     = 1;
+}
+
+message MethodInSetBrightnessWithTime {
+    repeated BrightnessTiming times                                 = 1;
+}
+
+message MethodOutSetBrightnessWithTime {
+    uint32 task                                                     = 1;
+}
+
+
+message MethodInGetGatewayUuid {
+
+}
+
+message MethodOutGetGatewayUuid {
+    bytes uuid                                                     = 1;
+}
+
+message MethodInGetGateway {
+
+}
+
+message MethodOutGetGateway {
+    Gateway gw                                                      = 1;
+}
+
+message MethodInGetThings {
+
+}
+
+message MethodOutGetThings {
+    repeated Thing things                                           = 1;
+}
+
+message MethodInSetTime {
+    uint32 year                                                      = 1;
+    uint32 month                                                     = 2;
+    uint32 day                                                       = 3;
+    uint32 hour                                                      = 4;
+    uint32 minute                                                    = 5;
+    uint32 second                                                    = 6;
+}
+
+message MethodOutSetTime {
+
+}
+
+message MethodInSetOnOff {
+    bool onoff                                                      = 1;
+}
+
+message MethodOutSetOnOff {
+
+}
+
+message MethodInSetOnOffDelay {
+    bool onoff                                                      = 1;
+    uint32 time                                                     = 2;
+}
+
+message MethodOutSetOnOffDelay {
+    uint32 task                                                      = 1;
+}
+
+message MethodInSetOnOffDaily {
+    bool onoff                                                      = 1;
+    uint32 time                                                     = 2;
+}
+
+message MethodOutSetOnOffDaily {
+    uint32 task                                                      = 1;
+}
+
+message MethodInSetOnOffWeekly {
+    bool onoff                                                      = 1;
+    uint32 week                                                     = 2;
+    uint32 time                                                     = 3;
+}
+
+message MethodOutSetOnOffWeekly {
+    uint32 task                                                      = 1;
+}
+
+message MethodInListTimeTask {
+
+}
+
+message MethodOutListTimeTask {
+    repeated uint32 task                                             = 1;
+}
+
+message MethodInCancelTimeTask {
+    uint32 task                                                      = 1;
+}
+
+message MethodOutCancelTimeTask {
+
+}
+
+message MethodInClearTimeTask {
+
+}
+
+message MethodOutClearTimeTask {
+
+}
+
+message MethodInClearEnergyStatistics {
+
+}
+
+message MethodOutClearEnergyStatistics {
+
+}
+
+message MethodInSetLevel {
+    uint32 level                                                    = 1;
+}
+
+message MethodOutSetLevel {
+
+}
+
+message MethodInSetBrightness {
+    uint32 brightness                                                = 1;
+}
+
+message MethodOutSetBrightness {
+
+}
+
+message MethodInAddCruiseTrack {
+    repeated CruisePosition positions                                  = 1;
+}
+
+message MethodOutAddCruiseTrack {
+    uint32 track                                                       = 1;
+}
+
+
+message MethodInRemoveCruiseTrack {
+    uint32 track                                                       = 1;
+}
+
+message MethodOutRemoveCruiseTrack {
+
+}
+
+message MethodInActiveCruiseTrack {
+    uint32 track                                                       = 1;
+}
+
+message MethodOutActiveCruiseTrack {
+
+}
+
+message MethodInInactiveCruiseTrack {
+    uint32 track                                                       = 1;
+}
+
+message MethodOutInactiveCruiseTrack {
+
+}
+
+message MethodInListCruiseTrack {
+
+}
+
+message MethodOutListCruiseTrack {
+    repeated uint32 tracks                                             = 1;
+}
+
+
+message MethodInAddIpc {
+    string ip                                                          = 1;
+    uint32 port                                                        = 2;
+    string username                                                    = 3;
+    string password                                                    = 4;
+}
+
+message MethodOutAddIpc {
+
+}
+
+message MethodInRemoveIpc {
+    string uuid                                                        = 1;
+}
+
+message MethodOutRemoveIpc {
+
+}
+
+message MethodInSetAccount {
+    string username                                                    = 1;
+    string password                                                    = 2;
+}
+
+message MethodOutSetAccount {
+
+}
+
+message MethodInMovePtz {
+    PtzDirection direction                                            = 1;
+    uint32 time_ms                                                    = 2;
+}
+
+message MethodOutMovePtz {
+
+}
+
+message MethodInStopPtz {
+
+}
+
+message MethodOutStopPtz {
+
+}
+
+message MethodInSavePtz {
+    uint32 position                                                    = 1;
+}
+
+message MethodOutSavePtz {
+
+}
+
+message MethodInRestorePtz {
+    uint32 position                                                    = 1;
+}
+
+message MethodOutRestorePtz {
+
+}
+
+message MethodInListPtz {
+
+}
+
+message MethodOutListPtz {
+    repeated uint32 positions                                            = 1;
+}
+
+message MethodInClearPtz {
+
+}
+
+message MethodOutClearPtz {
+
+}
+
+
+message MethodInRemovePtz {
+    uint32 position                                                    = 1;
+}
+
+message MethodOutRemovePtz {
+
+}
+
+message MethodInGetCpuUsage {
+
+}
+
+message MethodOutGetCpuUsage {
+    uint32 ratio                                                    = 1;
+}
+
+message MethodInGetRamUsage {
+
+}
+
+message MethodOutGetRamUsage {
+    uint32 ratio                                                    = 1;
+}
+
+message MethodInGetTotalRxBytes {
+
+}
+
+message MethodOutGetTotalRxBytes {
+    uint32 bytes                                                    = 1;
+}
+
+message MethodInGetTotalTxBytes {
+
+}
+
+message MethodOutGetTotalTxBytes {
+    uint32 bytes                                                    = 1;
+}
+
+message MethodInReboot {
+    uint32 time                                                        = 1;
+}
+
+message MethodOutReboot {
+
+}
+
+message MethodInScreenshot {
+    string url                                                        = 1;
+    uint32 quality                                                    = 2;
+    uint32 scale                                                    = 3;
+}
+
+message MethodOutScreenshot {
+
+}
+
+message MethodInLoadUrl {
+
+}
+
+message MethodOutLoadUrl {
+
+}
+
+message MethodInLoadProgram{
+    string url                                                        = 1;
+    string md5_sum                                                    = 2;
+}
+
+message MethodOutProgram {
+
+}
+
+message MethodInPlayFile {
+
+}
+
+message MethodOutPlayFile {
+
+}
+
+message MethodInUpdate {
+    string url                                                        = 1;
+    string md5_sum                                                        = 2;
+    bool cfg_save                                                        = 3;
+    bool force                                                        = 4;
+}
+
+message MethodOutUpdate {
+
+}
+
+message MethodInSetAttributeThreshold {
+    string attribute                                                        = 1;
+    uint32 threshold                                                        = 2;
+}
+
+message MethodOutSetAttributeThreshold {
+
+}
+
+message MethodInSetAttributeInterval {
+    string attribute                                                        = 1;
+    uint32 interval                                                            = 2;
+}
+
+message MethodOutSetAttributeInterval {
+
+}
+
+message MethodInGetConfig {
+
+}
+
+message MethodOutGetConfig {
+    string config                                                            = 1;
+}
+
+message MethodInSetConfig {
+    string config                                                            = 1;
+}
+
+message MethodOutSetConfig {
+
+}
+
+message MethodInAddDioLock {
+    uint32 status_input                                                        = 1;
+    uint32 control_output                                                    = 2;
+}
+
+message MethodOutAddDioLock {
+
+}
+
+message MethodInRemoveDioLock {
+    string uuid                                                                = 1;
+}
+
+message MethodOutRemoveDioLock {
+
+}
+
+message MethodInPause {
+
+}
+
+message MethodOutPause {
+
+}
+
+message MethodInResume {
+
+}
+
+message MethodOutResume {
+
+}
+
+message MethodInIdle {
+
+}
+
+message MethodOutIdle {
+
+}
+
+
+message MethodInSetVolume {
+    uint32 volume                                                            = 1;
+}
+
+message MethodOutSetVolume {
+
+}
+
+message MethodInSetFocus {
+    bool far                                                                = 1;
+}
+
+message MethodOutSetFocus {
+
+}
+
+message MethodInSetAperture {
+    bool large                                                                = 1;
+}
+
+message MethodOutSetAperture {
+
+}
+
+message MethodInSetZoom {
+    bool wide                                                                  = 1;
+}
+
+message MethodOutSetZoom {
+
+}
+
+message MethodInPushVideoPreview {
+    uint32 stream                                                            = 1;
+    string rtmp                                                                = 2;
+}
+
+message MethodOutPushVideoPreview {
+    string label                                                            = 1;
+}
+
+message MethodInPullVideoPreview {
+    uint32 stream                                                            = 1;
+}
+
+message MethodOutPullVideoPreview {
+    string    rtsp                                                            = 1;
+    string    label                                                            = 2;
+}
+
+message MethodInStopVideoPreview {
+    string label                                                            = 1;
+}
+
+message MethodOutStopVideoPreview {
+
+}
+
+message MethodInGetVideoStream {
+    uint32 stream                                                            = 1;
+}
+
+message MethodOutGetVideoStream {
+    string rtsp                                                                = 1;
+}
+
+message MethodInStillCapture {
+    string url                                                            = 1;
+    uint32 quality                                                        = 2;
+    uint32 scale                                                          = 3;
+}
+
+message MethodOutStillCapture {
+
+}
+
+message MethodInAddStreetLamp {
+    string label                                                            = 1;
+}
+
+message MethodOutAddStreetLamp {
+
+}
+
+message MethodInRemoveStreetLamp {
+    string label                                                            = 1;
+}
+
+message MethodOutRemoveStreetLamp {
+
+}
+
+message MethodInAddModbusRtu {
+    uint32 port                                                            = 1;
+    uint32 address                                                         = 2;
+}
+
+message MethodOutAddModbusRtu {
+
+}
+
+message MethodInRemoveModbusRtu {
+    uint32 port                                                            = 1;
+    uint32 address                                                         = 2;
+}
+
+message MethodOutRemoveModbusRtu {
+
+}
+
+message MethodInSetUart {
+    uint32 baudrate                                                        = 1;
+    uint32 parity_bit                                                      = 2;
+    uint32 data_bit                                                        = 3;
+    uint32 stop_bit                                                        = 4;
+}
+
+message MethodOutSetUart {
+
+}
+
+
+message MethodInLoadText {
+    string json                                                             = 1;
+    bool bottom                                                             = 2;
+}
+
+message MethodOutLoadText {
+
+}
+
+message MethodInSetOnOffWithResume {
+    uint32 time                                                             = 1;
+    bool onoff                                                              = 2;
+}
+
+message MethodInSetBrightnessWithResume {
+    uint32 time                                                             = 1;
+    uint32 brightness                                                       = 2;
+}
+
+message MethodInEnableTimePolicy {
+    bool enable                                                             = 1;
+}
+
+message MethodInSetAngleAxisOrigin {
+    bool relative                                                           = 1;
+}
+
+message MethodInSetOverVoltageThreshold {
+    uint32 voltage                                                          = 1;
+}
+
+message MethodInSetLowVoltageThreshold {
+    uint32 voltage                                                          = 1;
+}
+
+message MethodInSetOverCurrentThreshold {
+    uint32 current                                                          = 1;
+}
+
+message MethodInSetLeakageCurrentThreshold {
+    uint32 current                                                          = 1;
+}
+
+message MethodInSetAttributeChangeThreshold {
+    string attribute                                                        = 1;
+    sint32 threshold                                                        = 2;
+}
+
+message MethodInSetAttributeChangeInterval {
+    string attribute                                                        = 1;
+    uint32 interval                                                         = 2;
+}
+
+message MethodInPreloadProgram {
+    string url                                                              = 1;
+    string md5sum                                                           = 2;
+}
+
+message MethodInSwitchProgram {
+    string url                                                              = 1;
+    uint32 time                                                             = 2;
+}
+
+message LoadProgramDateTimes {
+    string url                                                              = 1;
+    string md5sum                                                           = 2;
+    uint32 volume                                                           = 3;
+    string start                                                            = 4;
+    string end                                                              = 5; 
+}   
+
+message MethodInLoadProgramWithDate {
+    string id                                                               = 1;
+    string startdate                                                        = 2;
+    string enddate                                                          = 3;
+    repeated LoadProgramDateTimes times                                     = 4;
+}
+
+message MethodInDeleteLoadProgramWithDate {
+    string id                                                               = 1;
+}
+
+enum SignalType {
+    SIGN_TYPE_UNKNOWN                                               = 0;
+
+    SIGN_TYPE_FAULT                                                 = 1;
+    SIGN_TYPE_SOS                                                   = 2;
+    SIGN_TYPE_CALL                                                  = 3;
+    SIGN_TYPE_VIDEO_COVER                                           = 4;
+    SIGN_TYPE_MOTION_DETECT                                         = 5;
+    SIGN_TYPE_STATUS                                                = 6;
+}
+
+message SignalFault {
+    uint32 code                                                     = 1;
+}
+
+message SignalCall {
+    uint32 status                                                   = 1;
+}
+
+message SignalStatus {
+    uint32 status                                                   = 1;
+}
+
+message Signal {
+    SignalType type                                                 = 1;
+    oneof value {
+        SignalFault fault                                           = 2;
+        SignalCall call                                             = 3;
+        SignalStatus status                                         = 4;
+    }
+}
+
+message Application {
+    bytes uuid                                                      = 1;
+    uint32 type                                                     = 2;
+
+    repeated Attribute attr                                         = 3;
+    repeated MethodType meth                                        = 4;
+    repeated SignalType sign                                        = 5;
+}
+
+message Thing {
+    bytes uuid                                                      = 1;
+    string prod                                                     = 2;
+    string model                                                    = 3;
+    string sn                                                       = 4;
+    uint32 type                                                     = 5;
+    bool online                                                     = 6;
+
+    repeated Attribute attr                                         = 7;
+    repeated MethodType meth                                        = 8;
+    repeated SignalType sign                                        = 9;
+    repeated Application app                                        = 10;
+}
+
+message Device {
+    bytes uuid                                                      = 1;
+    string ver                                                      = 2;
+    uint32 type                                                     = 3;
+
+    repeated MethodType meth                                        = 4;
+    repeated SignalType sign                                        = 5;
+    string process_name                                             = 6;
+}
+
+message Link {
+    bytes uuid                                                      = 1;
+    string ver                                                      = 2;
+
+    repeated MethodType meth                                        = 3;
+}
+
+message Gateway {
+    bytes uuid                                                      = 1;
+    string sw_ver                                                   = 2;
+    string hw_ver                                                   = 3;
+    string sn                                                       = 4;
+    string model                                                    = 5;
+
+    repeated MethodType meth                                        = 6;
+    repeated Attribute attr                                         = 7;
+    repeated Device dev                                             = 8;
+    repeated Link link                                              = 9;
+}
+
+message MessageDeviceEnrollMethod {
+    Device device                                                   = 1;
+}
+
+message MessageLinkEnrollMethod {
+    Link link                                                       = 1;
+}
+
+message MessageGatewayEnrollMethod {
+    Gateway gw                                                      = 1;
+}
+
+message MessageInvokeMethod {
+    bytes uuid                                                      = 1;
+    MethodType type                                                 = 2;
+    bytes in                                                        = 3;
+}
+
+message MessageResponseMethod {
+    uint32 status                                                   = 1;
+    bytes out                                                       = 2;
+}
+
+message EventAttributeChanged {
+    bytes uuid                                                      = 1;
+    repeated Attribute attr                                         = 2;
+}
+
+message EventSignalEmitted {
+    bytes uuid                                                      = 1;
+    Signal sign                                                     = 2;
+}
+
+message EventOnline {
+    repeated Thing thin                                             = 1;
+}
+
+message EventOffline {
+    repeated bytes uuid                                             = 1;
+}
+
+enum StatusType {
+    STS_TYPE_UNKNOWN                                                = 0;
+
+    STS_TYPE_UP                                                     = 1;
+    STS_TYPE_DOWN                                                   = 2;
+    STS_TYPE_READY                                                  = 3;
+}
+
+message Status {
+    StatusType type                                                 = 1;
+    bytes data                                                      = 2;
+}
+
+enum MethodStatus {
+    METH_STS_SUCCESS                                                = 0;
+
+    METH_STS_UNSUPPORT                                              = 1;
+    METH_STS_INVALID                                                = 2;
+}
+
+enum MessageType {
+    MSG_TYPE_UNKNOWN                                                = 0;
+
+    MSG_TYPE_LINK_ENROLL                                            = 1;
+    MSG_TYPE_DEVICE_ENROLL                                          = 2;
+    MSG_TYPE_GATEWAY_ENROLL                                         = 3;
+    MSG_TYPE_INVOKE_METHOD                                          = 4;
+    MSG_TYPE_RESPONSE_METHOD                                        = 5;
+    MSG_TYPE_ONLINE_NOTIFY                                          = 6;
+    MSG_TYPE_OFFLINE_NOTIFY                                         = 7;
+    MSG_TYPE_ATTRIBUTE_NOTIFY                                       = 8;
+    MSG_TYPE_SIGNAL_NOTIFY                                          = 9;
+    MSG_TYPE_READY_NOTIFY                                           = 10;
+}
+
+message Message {
+    MessageType type                                                = 1;
+    bytes data                                                      = 2;
+    uint32 seq                                                      = 3;
+    bytes src                                                       = 4;
+}
+
+enum EventType {
+    EVT_TYPE_UNKNOWN                                                = 0;
+
+    EVT_TYPE_THING_ONLINE                                           = 1;
+    EVT_TYPE_THING_OFFLINE                                          = 2;
+    EVT_TYPE_ATTRIBUTE_CHANGED                                      = 3;
+    EVT_TYPE_SIGNAL_EMITTED                                         = 4;
+}
+
+message Event {
+    EventType type                                                  = 1;
+    bytes data                                                      = 2;
+    uint32 seq                                                      = 3;
+}
